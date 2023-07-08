@@ -1,5 +1,4 @@
 const inquirer = require('inquirer');
-const {Circle, Square, Triangle} = require("./lib/shapes");
 const fs = require('fs');
 
 
@@ -12,18 +11,18 @@ function getText(textInput, colorInput) {
 function getShape(shapeInput, shapeColorInput) {
   if(shapeInput === 'square') {
     //Square
-    return `<rect x="50" height="300" width="300" fill="${shapeColorInput}">`
+    return `<rect x="50" height="300" width="300" fill="${shapeColorInput}"></rect>`
   } else if(shapeInput === 'circle') {
     //Circle
-    return `<circle cx="50%" cy="50%" r="150" height="100%" width="100%" fill="${shapeColorInput}">`
+    return `<circle cx="50%" cy="50%" r="150" height="100%" width="100%" fill="${shapeColorInput}"></circle`
   } else {
     //Triangle
-    return `<polygon height="100%" width="100%" points="0,200 300,200 150,0" fill="${shapeColorInput}">`
+    return `<polygon height="100%" width="100%" points="0,200 300,200 150,0" fill="${shapeColorInput}"></polygon>`
   }
 }
 
 function getSVG(shape, text) {
-  return `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="300" height="200"> ${shape} ${text} </svg>`
+  return `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="300" height="200">${shape}${text}</svg>`
 }
 
 inquirer.prompt([
@@ -41,7 +40,7 @@ inquirer.prompt([
       type: 'list',
       message: `What would you like the shape to be?`,
       name: 'logoShape',
-      choices: [circle, triangle, square]
+      choices: ['circle', 'triangle', 'square']
     },
     {
       type: 'input',
@@ -54,8 +53,6 @@ inquirer.prompt([
     const textColor = data.textColor;
     const shapeInput = data.logoShape;
     const shapeColor = data.shapeColor;
-    
-    if(textInput < 4) {
     const shape = getShape(shapeInput, shapeColor)
     const text = getText(textInput, textColor)
     const logoData = getSVG(shape, text)
@@ -63,10 +60,7 @@ inquirer.prompt([
     fs.writeFile('logo.svg', logoData, (err) =>
     err ? console.error(err) : console.log('Success!')
     );
-    } else {
-      console.log("Please make sure your text is 3 characters or less")
-      return
-    }
+
   })
 
 
